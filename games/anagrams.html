@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Anagrams</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../registration.html">Registration</a></li>
+                <li><a href="../games/games.html">Games</a></li>
+                <li><a href="../videos.html">Videos</a></li>
+                <li><a href="../marketplace.html">MarketPlace</a></li>
+                <li><a href="../book-course.html">Book a Class</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Dynamic Anagrams</h1>
+        <p>Rearrange the letters: <span id="letters"></span></p>
+        <input type="text" id="word" placeholder="Enter a word">
+        <button id="checkWord">Check the word</button>
+        <p id="result"></p>
+        <div id="anagram-options"></div>
+
+        <script>
+            const apiKey = 'YOUR_API_KEY'; // Replace with your API key
+
+            async function getAnagrams(word) {
+                const response = await fetch('https://api.openai.com/v1/engines/davinci-codex/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify({
+                        prompt: `Generate 10 anagrams for the word "${word}".`,
+                        max_tokens: 100,
+                        n: 1,
+                        stop: null,
+                        temperature: 0.7
+                    })
+                });
+                const data = await response.json();
+                return data.choices[0].text.trim().split('\n');
+            }
+
+            async function checkWordValidity(word) {
+                const response = await fetch('https://api.openai.com/v1/engines/davinci-codex/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify({
+                        prompt: `Is the word "${word}" a valid word in French?`,
+                        max_tokens: 5,
+                        n: 1,
+                        stop: null,
+                        temperature: 0
+                    })
+                });
+                const data = await response.json();
+                return data.choices[0].text.trim();
+            }
+
+            $(document).ready(async function() {
+                const word = "chat";
+                const anagrams = await getAnagrams(word);
+                $('#letters').text(word.split('').sort(() => Math.random() - 0.5).join(' '));
+                
+                // Display anagram options
+                const anagramOptions = $('#anagram-options');
+                anagrams.forEach((anagram, index) => {
+                    anagramOptions.append(`<div class="anagram">${anagram}</div>`);
+                });
+
+                $('#checkWord').click(async function() {
+                    const word = $('#word').val().toLowerCase();
+                    const result = await checkWordValidity(word);
+                    $('#result').text(result);
+                });
+            });
+        </script>
+    </main>
+    <footer>
+        <p>&copy; 2024 Learn French</p>
+    </footer>
+    <script src="../js/scripts.js"></script>
+    <button class="whatsapp-button" onclick="window.open('https://wa.me/5531995964621', '_blank');">
+        <i class="fa-brands fa-whatsapp"></i>
+    </button>
+    <script src="https://kit.fontawesome.com/be58f692ee.js" crossorigin="anonymous"></script>
+</body>
+</html>

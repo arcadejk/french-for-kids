@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration</title>
+    <title>Videos</title>
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
@@ -20,24 +20,19 @@
         </nav>
     </header>
     <main>
-        <h1>Registration</h1>
-        <form action="/register" method="POST">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-            <label for="age">Age:</label>
-            <input type="number" id="age" name="age" min="4" max="10" required>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-            <button type="submit">Register</button>
-        </form>
-    </main>    
+        <h1>Educational Videos</h1>
+        <p>Watch our videos to learn French while having fun!</p>
+        <div id="video-container"></div>
+    </main>
     <footer>
         <p>&copy; 2024 Learn French</p>
     </footer>
-    <script src="../js/script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../js/scripts.js"></script>
     <button class="whatsapp-button" onclick="window.open('https://wa.me/5531995964621', '_blank');">
         <i class="fa-brands fa-whatsapp"></i>
     </button>
     <script src="https://kit.fontawesome.com/be58f692ee.js" crossorigin="anonymous"></script>
+    <script src="../js/youtube.js"></script>
 </body>
 </html>
